@@ -142,7 +142,7 @@
     </p>
     <div class="income-bar">
       <label>Monthly net income</label>
-      <input type="text" id="income" value="2800" inputmode="decimal" placeholder="0.00" oninput="saveIncome(this.value)" onchange="calc()">
+      <input type="text" id="income" value="3300" inputmode="decimal" placeholder="0.00" oninput="saveIncome(this.value)" onchange="calc()">
       <span>per month</span>
     </div>
   </div>
@@ -157,7 +157,7 @@ var section='budget',currentMonth='2026-07',allMonths={};
 var MONTHS=[{key:'2026-07',label:'Jul',year:'2026'},{key:'2026-08',label:'Aug',year:'2026'},{key:'2026-09',label:'Sep',year:'2026'},{key:'2026-10',label:'Oct',year:'2026'},{key:'2026-11',label:'Nov',year:'2026'},{key:'2026-12',label:'Dec',year:'2026'},{key:'2027-01',label:'Jan',year:'2027'},{key:'2027-02',label:'Feb',year:'2027'},{key:'2027-03',label:'Mar',year:'2027'},{key:'2027-04',label:'Apr',year:'2027'},{key:'2027-05',label:'May',year:'2027'},{key:'2027-06',label:'Jun',year:'2027'}];
 var trips=[{name:'Summer 2026',sections:[{title:'Flights',items:[{name:'Outbound flight',amt:0},{name:'Return flight',amt:0}]},{title:'Accommodation',items:[{name:'Hotel / Airbnb',amt:0},{name:'',amt:0}]},{title:'Transport',items:[{name:'Airport shuttle',amt:0},{name:'Car rental',amt:0}]},{title:'Food',items:[{name:'Restaurants',amt:0},{name:'Groceries',amt:0}]},{title:'Activities',items:[{name:'',amt:0},{name:'',amt:0}]},{title:'Shopping',items:[{name:'',amt:0}]}]}];
 function defaultBuckets(){return{needs:{label:'Needs',pct:50,items:[{name:'Rent',amt:0},{name:'Food / Groceries',amt:0},{name:'Phone - Bouygues',amt:0},{name:'Internet - Bouygues',amt:0},{name:'Electricity - EDF',amt:0},{name:'Transport pass',amt:0},{name:'Insurance - Luko',amt:0},{name:'Revolut Card',amt:0},{name:'iCloud + Canva',amt:0},{name:'Swile lunch card',amt:0}]},wants:{label:'Wants',pct:30,items:[{name:'Restaurants & Going out',amt:0},{name:'Clothes & Misc',amt:0},{name:'Home & Decor',amt:0},{name:'Spotify',amt:0},{name:'Leisure subscriptions',amt:0},{name:'Beauty & Wellness',amt:0},{name:'Gym / Sport',amt:0},{name:'',amt:0}]},future:{label:'Future Me',pct:20,items:[{name:'Investments',amt:0},{name:'Savings / Emergency fund',amt:0},{name:'Debt repayment',amt:0},{name:'',amt:0},{name:'',amt:0}]}};}
-function getMonthData(mk){if(!allMonths[mk])allMonths[mk]={buckets:defaultBuckets(),income:'2800'};return allMonths[mk];}
+function getMonthData(mk){if(!allMonths[mk])allMonths[mk]={buckets:defaultBuckets(),income:'3300'};return allMonths[mk];}
 function B(){return getMonthData(currentMonth).buckets;}
 function fmt(n){return parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function getIncome(){return parseFloat((document.getElementById('income').value+'').replace(',','.'))||0;}
@@ -165,7 +165,7 @@ function bucketTotal(k){return B()[k].items.reduce(function(s,it){return s+(pars
 function tripTotal(t){return t.sections.reduce(function(s,sec){return s+sec.items.reduce(function(ss,it){return ss+(parseFloat(it.amt)||0);},0);},0);}
 function secTotal(sec){return sec.items.reduce(function(s,it){return s+(parseFloat(it.amt)||0);},0);}
 function saveIncome(val){getMonthData(currentMonth).income=val;saveData();}
-function setMonth(mk){getMonthData(currentMonth).income=document.getElementById('income').value;currentMonth=mk;document.getElementById('income').value=getMonthData(mk).income||'2800';calc();saveData();}
+function setMonth(mk){getMonthData(currentMonth).income=document.getElementById('income').value;currentMonth=mk;document.getElementById('income').value=getMonthData(mk).income||'3300';calc();saveData();}
 function setSection(s){getMonthData(currentMonth).income=document.getElementById('income').value;section=s;var tabs=document.querySelectorAll('.sec-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');document.querySelector('.sec-tab.'+s).classList.add('active');document.getElementById('content').className='content '+(s==='budget'?'budget-bg':'travel-bg');render();saveData();}
 function calc(){render();}
 function render(){if(section==='budget')renderBudget();else renderTravel();}
@@ -188,7 +188,7 @@ function delVacItem(el){var s=trips[el.dataset.ti].sections[el.dataset.si];if(s.
 function delTrip(el){if(trips.length>1){trips.splice(parseInt(el.dataset.ti),1);}calc();saveData();}
 function addTrip(){trips.push({name:'New trip',sections:[{title:'Flights',items:[{name:'',amt:0}]},{title:'Accommodation',items:[{name:'',amt:0}]},{title:'Transport',items:[{name:'',amt:0}]},{title:'Food',items:[{name:'',amt:0}]},{title:'Activities',items:[{name:'',amt:0}]},{title:'Shopping',items:[{name:'',amt:0}]}]});calc();saveData();}
 function saveData(){try{getMonthData(currentMonth).income=document.getElementById('income').value;localStorage.setItem('ib_months',JSON.stringify(allMonths));localStorage.setItem('ib_curmonth',currentMonth);localStorage.setItem('ib_trips',JSON.stringify(trips));localStorage.setItem('ib_section',section);}catch(e){}}
-function loadData(){try{var am=localStorage.getItem('ib_months');if(am)allMonths=JSON.parse(am);var cm=localStorage.getItem('ib_curmonth');if(cm)currentMonth=cm;document.getElementById('income').value=getMonthData(currentMonth).income||'2800';var tr=localStorage.getItem('ib_trips');if(tr)trips=JSON.parse(tr);var sec=localStorage.getItem('ib_section');if(sec){section=sec;var tabs=document.querySelectorAll('.sec-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');document.querySelector('.sec-tab.'+sec).classList.add('active');document.getElementById('content').className='content '+(sec==='budget'?'budget-bg':'travel-bg');}}catch(e){}}
+function loadData(){try{var am=localStorage.getItem('ib_months');if(am)allMonths=JSON.parse(am);var cm=localStorage.getItem('ib_curmonth');if(cm)currentMonth=cm;document.getElementById('income').value=getMonthData(currentMonth).income||'3300';var tr=localStorage.getItem('ib_trips');if(tr)trips=JSON.parse(tr);var sec=localStorage.getItem('ib_section');if(sec){section=sec;var tabs=document.querySelectorAll('.sec-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');document.querySelector('.sec-tab.'+sec).classList.add('active');document.getElementById('content').className='content '+(sec==='budget'?'budget-bg':'travel-bg');}}catch(e){}}
 function resetData(){if(!confirm('Clear all data and start over?'))return;try{localStorage.clear();}catch(e){}location.reload();}
 loadData();render();
 </script>
